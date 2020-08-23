@@ -17,6 +17,7 @@ class App extends Component {
 
       const newToDos = this.state.todos.slice()
       newToDos.push(newToDo)
+      console.log(newToDos)
       this.setState({ todos: newToDos })
       evt.target.value = ''
     }
@@ -42,11 +43,10 @@ class App extends Component {
     this.setState({ todos: newToDos })
   }
 
-  handleDelete = (evt, id) => {
+  handleDelete = (evt,id) => {
     let newToDos = this.state.todos.filter((todo) => todo.id !== id)
     this.setState({ todos: newToDos })
   }
-
 
   render() {
     return (
