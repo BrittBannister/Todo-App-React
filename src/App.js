@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import {useState} from 'react'
 import todosList from "./todos.json";
-// import uuid from "uuid"
+import {v4 as uuidv4} from "uuid"
 //!throughout this project, Amanda and Jonny and I all collaborated to figure stuff out. 
 //! Jacob met us in our breakout room to talk us through some issues as well with state management.  
 
@@ -17,8 +17,8 @@ class App extends Component {
     if (evt.key === 'Enter') {
       const newToDo = {
         userId: 1,
-        // id: uuidv4(),
-        id: Math.floor(Math.random() * 1000),
+        id: uuidv4(),
+        // id: Math.floor(Math.random() * 1000),
         title: evt.target.value,
         completed: false,
     }
