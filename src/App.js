@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import {useState} from 'react'
+import './index.css'
 import todosList from "./todos.json";
 import {v4 as uuidv4} from "uuid"
 import TodoList from './TodoList'
@@ -23,11 +23,11 @@ class App extends Component {
         title: evt.target.value,
         completed: false,
     }
-
+      //created a copy
       const newToDos = this.state.todos.slice() 
       newToDos.push(newToDo) 
       console.log(newToDos)
-      this.setState({ todos: newToDos })
+      this.setState({ todos: newToDos }) //override orginial
       evt.target.value = ''
     }
   }
@@ -80,6 +80,7 @@ class App extends Component {
                 todos = {this.state.todos} 
                 handleDelete = {this.handleDelete}
                 handleComplete = {this.handleComplete}
+                clearComplete = {this.clearComplete}
               />
             )}
             />
@@ -90,6 +91,7 @@ class App extends Component {
                 todos = {this.state.todos.filter((todo) => todo.completed === false)} 
                 handleDelete = {this.handleDelete}
                 handleComplete = {this.handleComplete}
+                clearComplete = {this.clearComplete}
               />
             )}
             />
@@ -100,6 +102,7 @@ class App extends Component {
               todos = {this.state.todos.filter((todo) => todo.completed === true)}
               handleDelete = {this.handleDelete}
               handleComplete = {this.handleComplete}
+              clearComplete = {this.clearComplete}
             />
             )}
             />
@@ -107,7 +110,13 @@ class App extends Component {
 <footer className="footer">
 					<span className="todo-count">
 						<strong>
-            {this.state.todos.filter((todo) => todo.completed === false).length}
+            {(() => {
+              let incompleted = this.state.todos.filter(
+                todo => todo.completed !== true
+              )
+              return incompleted.length
+            })()}
+            {/* {this.state.todos.filter((todo) => todo.completed === false).length} */}
             </strong>{" "}
 						item(s) left
 					</span>

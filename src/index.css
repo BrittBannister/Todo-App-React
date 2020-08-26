@@ -309,6 +309,8 @@ body {
 
 .filters li a:hover {
     border-color: rgba(175, 47, 47, 0.1);
+    text-transform: uppercase;
+    color: orangered;
 }
 
 .filters li a.selected {
@@ -326,6 +328,8 @@ html .clear-completed:active {
 
 .clear-completed:hover {
     text-decoration: underline;
+    text-transform: uppercase;
+    color: orangered;
 }
 
 .info {

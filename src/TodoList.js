@@ -13,6 +13,7 @@ class TodoList extends Component {
                 completed={todo.completed} 
                 handleComplete={(evt) => this.props.handleComplete(todo.id)} 
                 handleDelete={(evt) => this.props.handleDelete(todo.id)}
+                clearComplete = {(evt) => this.props.clearComplete(todo.id)}
                 />
             ))}
           </ul>
