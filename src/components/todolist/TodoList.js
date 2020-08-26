@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import TodoItem from './TodoItem'
+import TodoItem from '../todoitem/TodoItem'
 
 class TodoList extends Component {
     render() {
@@ -11,9 +11,9 @@ class TodoList extends Component {
                 key={todo.id}  
                 title={todo.title} 
                 completed={todo.completed} 
-                handleComplete={(evt) => this.props.handleComplete(todo.id)} 
-                handleDelete={(evt) => this.props.handleDelete(todo.id)}
-                clearComplete = {(evt) => this.props.clearComplete(todo.id)}
+                handleComplete={() => this.props.handleComplete(todo.id)} 
+                handleDelete={() => this.props.handleDelete(todo.id)}
+                clearComplete = {() => this.props.clearComplete(todo.id)}
                 />
             ))}
           </ul>
