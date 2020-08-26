@@ -2,8 +2,9 @@ import React, { Component } from "react";
 // import {useState} from 'react'
 import todosList from "./todos.json";
 import {v4 as uuidv4} from "uuid"
-//!throughout this project, Amanda and Jonny and I all collaborated to figure stuff out. 
-//! Jacob met us in our breakout room to talk us through some issues as well with state management.  
+import TodoList from './TodoList'
+import {Route, NavLink} from 'react-router-dom'
+ 
 
 //state todos is an array of objects.
 class App extends Component {
@@ -36,22 +37,22 @@ class App extends Component {
       if (todo.id === id) {
         return {
           ...todo,
-          completed: !todo.completed,
+          completed: !todo.completed
         }
       }
       return todo
     })
     this.setState({
-      todos: newToDos,
+      todos: newToDos
     })
   }
 
 
     //filter - only cares about getting true or false back
     //both these are doing the same thing basically...can i refactor these??
-  clearComplete = () => {
-    let deleteComplete = this.state.todos.filter((todo) => todo.completed === false)
-    this.setState({todos: deleteComplete})
+  clearComplete = (evt) => {
+    let newToDos = this.state.todos.filter((todo) => todo.completed === false)
+    this.setState({todos: newToDos})
   }
 
   handleDelete = (todoId) => {
@@ -64,59 +65,135 @@ class App extends Component {
   render() {
     return (
       <section className="todoapp">
-        <header className="header">
-          <h1>todos</h1>
-          <input className="new-todo" placeholder="What needs to be done?" onKeyDown={this.addTodo} autoFocus />
-        </header>
-        <TodoList todos={this.state.todos} handleDelete={this.handleDelete} handleComplete={this.handleComplete} />
-        <footer className="footer">
-          <span className="todo-count">
-            <strong>0</strong> item(s) left
-          </span>
-          <button className="clear-completed" onClick={this.clearComplete}>
-            Clear completed
-          </button>
-        </footer>
-      </section>
-    )
-  }
-}
+         <header className="header">
+           <h1>todos</h1>
+           <input 
+           className="new-todo" 
+           placeholder="What needs to be done?" 
+           onKeyDown={this.addTodo} 
+           autoFocus />
+       </header>
 
-class TodoItem extends Component {
-  render() {
-    return (
-      <li className={this.props.completed ? "completed" : ""}>
-        <div className="view">
-          <input className="toggle" type="checkbox" checked={this.props.completed} onChange={this.props.handleComplete}
-          />
-          <label>{this.props.title}</label>
-          <button className="destroy" onClick={this.props.handleDelete} />
-        </div>
-      </li>
-    )
-  }
-}
-
-class TodoList extends Component {
-  render() {
-    return (
-      <section className="main">
-        <ul className="todo-list">
-          {this.props.todos.map((todo) => (
-            <TodoItem key={todo.id}  
-              title={todo.title} completed={todo.completed} 
-              handleComplete={(evt) => this.props.handleComplete(todo.id)} 
-              handleDelete={(evt) => this.props.handleDelete(todo.id)}
+      <Route exact path = '/'
+            render = {() => (
+              <TodoList
+                todos = {this.state.todos} 
+                handleDelete = {this.handleDelete}
+                handleComplete = {this.handleComplete}
               />
-          ))}
-        </ul>
-      </section>
-    );
+            )}
+            />
+
+        <Route path = './active'
+              render = {() => (
+                <TodoList
+                todos = {this.state.todos.filter((todo) => todo.completed === false)} 
+                handleDelete = {this.handleDelete}
+                handleComplete = {this.handleComplete}
+              />
+            )}
+            />
+
+          <Route path = './completed'
+            render = {() => (
+              <TodoList
+              todos = {this.state.todos.filter((todo) => todo.completed === true)}
+              handleDelete = {this.handleDelete}
+              handleComplete = {this.handleComplete}
+            />
+            )}
+            />
+
+<footer className="footer">
+					<span className="todo-count">
+						<strong>
+            {this.state.todos.filter((todo) => todo.completed === false).length}
+            </strong>{" "}
+						item(s) left
+					</span>
+					<ul className="filters">
+						<li>
+							<NavLink exact to="/" activeClassName="selected">
+								All
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to="/active" activeClassName="selected">
+								Active
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to="/completed" activeClassName="selected">
+								Completed
+							</NavLink>
+						</li>
+					</ul>
+					<button className="clear-completed" onClick={this.clearComplete}>
+						Clear completed
+					</button>
+				</footer>
+
+</section>
+    )
   }
 }
-
-
 export default App
+//   render() {
+//     return (
+//       <section className="todoapp">
+//         <header className="header">
+//           <h1>todos</h1>
+//           <input className="new-todo" placeholder="What needs to be done?" onKeyDown={this.addTodo} autoFocus />
+//         </header>
+//         <TodoList todos={this.state.todos} handleDelete={this.handleDelete} handleComplete={this.handleComplete} />
+//         <footer className="footer">
+//           <span className="todo-count">
+//             <strong>0</strong> item(s) left
+//           </span>
+//           <button className="clear-completed" onClick={this.clearComplete}>
+//             Clear completed
+//           </button>
+//         </footer>
+//       </section>
+//     )
+//   }
+// }
+
+// class TodoItem extends Component {
+//   render() {
+//     return (
+//       <li className={this.props.completed ? "completed" : ""}>
+//         <div className="view">
+//           <input className="toggle" type="checkbox" checked={this.props.completed} onChange={this.props.handleComplete}
+//           />
+//           <label>{this.props.title}</label>
+//           <button className="destroy" onClick={this.props.handleDelete} />
+//         </div>
+//       </li>
+//     )
+//   }
+// }
+
+// class TodoList extends Component {
+//   render() {
+//     return (
+//       <section className="main">
+//         <ul className="todo-list">
+//           {this.props.todos.map((todo) => (
+//             <TodoItem key={todo.id}  
+//               title={todo.title} completed={todo.completed} 
+//               handleComplete={(evt) => this.props.handleComplete(todo.id)} 
+//               handleDelete={(evt) => this.props.handleDelete(todo.id)}
+//               />
+//           ))}
+//         </ul>
+//       </section>
+//     );
+//   }
+// }
+
+
+// export default App
 
 //! i tried to complete this using hooks but got super confused. So i stuck with the class components that were given to us. 
 
@@ -156,8 +233,8 @@ export default App
   
 
 // const clearComplete = () => {
-//   let deleteComplete = todos.filter((todo) => todo.completed === false)
-//   todos(deleteComplete)
+//   let newToDos = todos.filter((todo) => todo.completed === false)
+//   todos(newToDos)
 // }
 
 // const handleDelete = (todoId) => {
