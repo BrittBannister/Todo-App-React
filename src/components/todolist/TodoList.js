@@ -1,5 +1,10 @@
 import React, {Component} from 'react'
 import TodoItem from '../todoitem/TodoItem'
+import {connect} from 'react-redux'
+import {deleteTodo, toggleTodo} from '../../actions'
+
+// import {connect} from 'rreact-redux'
+// import {handleDelete, handleComplete} from './actions'
 
 class TodoList extends Component {
     render() {
@@ -8,12 +13,10 @@ class TodoList extends Component {
           <ul className="todo-list">
             {this.props.todos.map((todo) => (
               <TodoItem 
-                key={todo.id}  
                 title={todo.title} 
                 completed={todo.completed} 
-                handleComplete={() => this.props.handleComplete(todo.id)} 
-                handleDelete={() => this.props.handleDelete(todo.id)}
-                clearComplete = {() => this.props.clearComplete(todo.id)}
+                handleToggleDelete={(evt) => this.props.deleteTodo(todo.id)}
+                handleToggleTodo={(evt) => this.props.toggleTodo(todo.id)}
                 />
             ))}
           </ul>
@@ -23,3 +26,5 @@ class TodoList extends Component {
   }
 
 export default TodoList
+
+

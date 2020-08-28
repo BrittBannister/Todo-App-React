@@ -1,68 +1,29 @@
+// import {v4 as uuidv4} from "uuid"
 import React, { Component } from "react";
 import './index.css'
 import todosList from "./todos.json";
-import {v4 as uuidv4} from "uuid"
 import TodoList from './components/todolist/TodoList'
 import { Route, NavLink} from 'react-router-dom'
- 
-//! JONNY AND AMANDA HELPED ME FIGURE OUT MY ISSUES WITH MY ROUTE. 
+import {connect} from 'react-redux'
+import {addTodo, clearCompletedTodos} from './actions'
 
-//state todos is an array of objects.
 class App extends Component {
   state = {
-    todos: todosList,
-  };
-  
-  
-  addTodo = (evt) => {
-    // const uuidv4 = require("uuid/v4")
+    todos: todosList
+  }
+
+  handleAddTodo = (evt) => {
     if (evt.key === 'Enter') {
-      const newToDo = {
-        userId: 1,
-        id: uuidv4(),
-        // id: Math.floor(Math.random() * 1000),
-        title: evt.target.value,
-        completed: false,
-    }
-      //created a copy
-      const newToDos = this.state.todos.slice() 
-      newToDos.push(newToDo) 
-      console.log(newToDos)
-      this.setState({ todos: newToDos }) //override orginial
+      this.props.addTodo(evt.target.value)
       evt.target.value = ''
     }
   }
 
-
-  handleComplete = (id) => {
-    let newToDos = this.state.todos.map((todo) => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          completed: !todo.completed
-        }
-      }
-      return todo
-    })
-    this.setState({
-      todos: newToDos
-    })
+  handleClearCompletedTodos= (evt) => {
+    console.log('cleared out todo items')
+    this.props.clearCompletedTodos()
   }
 
-
-    //filter - only cares about getting true or false back
-    //both these are doing the same thing basically...can i refactor these??
-  clearComplete = (evt) => {
-    let newToDos = this.state.todos.filter((todo) => todo.completed === false)
-    this.setState({todos: newToDos})
-  }
-
-  handleDelete = (todoId) => {
-    console.log(todoId)
-    let newToDos = this.state.todos.filter((todo) => todo.id !== todoId)
-    console.log(newToDos)
-    this.setState({ todos: newToDos })
-  }
   render() {
     return (
       <section className="todoapp">
@@ -71,7 +32,7 @@ class App extends Component {
            <input 
            className="new-todo" 
            placeholder="What needs to be done?" 
-           onKeyDown={this.addTodo} 
+           onKeyDown={this.handleAddTodo} 
            autoFocus />
        </header>
 
@@ -79,10 +40,10 @@ class App extends Component {
         exact path = '/'
             render = {() => 
               <TodoList
-                todos = {this.state.todos} 
-                handleDelete = {this.handleDelete}
-                handleComplete = {this.handleComplete}
-                clearComplete = {this.clearComplete}
+                todos = {this.props.todos} 
+                // handleDelete = {this.handleDelete}
+                // handleComplete = {this.handleComplete}
+                // clearComplete = {this.clearComplete}
               />
             }
             />
@@ -90,10 +51,10 @@ class App extends Component {
         <Route path = '/active'
               render = {() => 
                 <TodoList
-                todos = {this.state.todos.filter(todo => todo.completed === false)} 
-                handleDelete = {this.handleDelete}
-                handleComplete = {this.handleComplete}
-                clearComplete = {this.clearComplete}
+                todos = {this.props.todos.filter(todo => todo.completed === false)} 
+                // handleDelete = {this.handleDelete}
+                // handleComplete = {this.handleComplete}
+                // clearComplete = {this.clearComplete}
               />
             }
             />
@@ -101,24 +62,13 @@ class App extends Component {
         <Route path = '/completed'
               render = {() => 
                 <TodoList
-                todos = {this.state.todos.filter(todo => todo.completed === true)} 
-                handleDelete = {this.handleDelete}
-                handleComplete = {this.handleComplete}
-                clearComplete = {this.clearComplete}
+                todos = {this.props.todos.filter(todo => todo.completed === true)} 
+                // handleDelete = {this.handleDelete}
+                // handleComplete = {this.handleComplete}
+                // clearComplete = {this.clearComplete}
               />
             }
             />
-//! WHY DOEST THIS WORK WHEN ITS THE SAME AS ABOVE^^^ !@$(!@%*!@()%*)
-{/* <Route path = '/completed'
-              render = {() => 
-                <TodoList
-                todos = {this.state.todos.filter(todo => todo.completed === true)} 
-                handleDelete = {this.handleDelete}
-                handleComplete = {this.handleComplete}
-                clearComplete = {this.clearComplete}
-              />
-            }
-            /> */}
 
 
 <footer className="footer">
@@ -129,16 +79,6 @@ class App extends Component {
 						item(s) left
 					</span>
 					<ul className="filters">
-          {/* <li>
-              <a href="/">All</a>
-            </li>
-            <li>
-              <a href="/active">Active</a>
-            </li>
-            <li>
-              <a href="/completed">Completed</a>
-            </li> */}
-
 						<li>
 							<NavLink exact to="/" activeClassName="selected">
 								All
@@ -155,13 +95,13 @@ class App extends Component {
 							</NavLink>
 						</li>
 					</ul>
-					<button className="clear-completed" onClick={this.clearComplete}>
+					<button className="clear-completed" onClick={this.handleClearCompletedTodos}>
 						Clear completed
 					</button>
 				</footer>
-
 </section>
     )
   }
 }
 export default App
+
