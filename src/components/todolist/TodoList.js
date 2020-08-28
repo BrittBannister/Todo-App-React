@@ -10,10 +10,11 @@ class TodoList extends Component {
           <ul className="todo-list">
             {this.props.todos.map((todo) => (
               <TodoItem 
+                key = {todo.id}
                 title={todo.title} 
                 completed={todo.completed} 
-                handleToggleDelete={(evt) => this.props.deleteTodo(todo.id)}
-                handleToggleTodo={(evt) => this.props.toggleTodo(todo.id)}
+                handleDelete={(evt) => this.props.deleteTodo(todo.id)}
+                handleToggle={(evt) => this.props.toggleTodo(todo.id)}
                 />
             ))}
           </ul>

@@ -24,6 +24,14 @@ class App extends Component {
     this.props.clearCompletedTodos()
   }
 
+  handleDelete = (evt, idDeleted) => {
+    const newTodos = this.state.todos.filter(
+      todo => todo.id !== idDeleted
+    );
+    this.setState({ todos: newTodos });
+  };
+
+
   render() {
     return (
       <section className="todoapp">
@@ -41,7 +49,7 @@ class App extends Component {
             render = {() => 
               <TodoList
                 todos = {this.props.todos} 
-                // handleDelete = {this.handleDelete}
+                handleDelete = {this.handleDelete}
                 // handleComplete = {this.handleComplete}
                 // clearComplete = {this.clearComplete}
               />
@@ -52,7 +60,7 @@ class App extends Component {
               render = {() => 
                 <TodoList
                 todos = {this.props.todos.filter(todo => todo.completed === false)} 
-                // handleDelete = {this.handleDelete}
+                handleDelete = {this.handleDelete}
                 // handleComplete = {this.handleComplete}
                 // clearComplete = {this.clearComplete}
               />
@@ -63,7 +71,7 @@ class App extends Component {
               render = {() => 
                 <TodoList
                 todos = {this.props.todos.filter(todo => todo.completed === true)} 
-                // handleDelete = {this.handleDelete}
+                handleDelete = {this.handleDelete}
                 // handleComplete = {this.handleComplete}
                 // clearComplete = {this.clearComplete}
               />

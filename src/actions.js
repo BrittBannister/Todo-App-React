@@ -20,18 +20,18 @@ export const addTodo = (todoTitle) => {
     }
 }
 
-export const toggleTodo  = (toggleId) => {
+export const toggleTodo  = (idToggled) => {
     return {
         type: TOGGLE_TODO,
-        payload: toggleId
+        payload: idToggled
     }
 }
 
 
-export const deleteTodo = (deleteId) => {
+export const deleteTodo = (idDeleted) => {
     return {
         type: DELETE_TODO,
-        payload: deleteId
+        payload: idDeleted
     }
 }
 

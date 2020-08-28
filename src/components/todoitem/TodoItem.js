@@ -8,10 +8,10 @@ class TodoItem extends Component {
           <input className="toggle" 
                 type="checkbox" 
                 checked={this.props.completed} 
-                onChange={this.props.handleToggleTodo}
+                onChange={this.props.handleToggle}
           />
           <label>{this.props.title}</label>
-          <button className="destroy" onClick={this.props.handleDeleteTodo} />
+          <button className="destroy" onClick={this.props.handleDelete} />
         </div>
       </li>
     )
