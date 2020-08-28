@@ -3,9 +3,6 @@ import TodoItem from '../todoitem/TodoItem'
 import {connect} from 'react-redux'
 import {deleteTodo, toggleTodo} from '../../actions'
 
-// import {connect} from 'rreact-redux'
-// import {handleDelete, handleComplete} from './actions'
-
 class TodoList extends Component {
     render() {
       return (
@@ -25,6 +22,11 @@ class TodoList extends Component {
     }
   }
 
-export default TodoList
+  const mapDispatchToProps ={
+    deleteTodo,
+    toggleTodo
+   }
+   
+   export default connect(null, mapDispatchToProps)(TodoList)
 
 

@@ -103,5 +103,17 @@ class App extends Component {
     )
   }
 }
-export default App
+
+const mapStateToProps = (state) => {
+  return {
+    todos: state.todos
+  }
+}
+
+const mapDispatchToProps = {
+  addTodo,
+  clearCompletedTodos
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 
